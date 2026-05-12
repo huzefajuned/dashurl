@@ -2,6 +2,9 @@ import { User } from "firebase/auth";
 
 export interface shortedUrlsProps {
   shortUrl: string;
+  originalUrl?: string;
+  clicks?: number;
+  createdAt?: string;
 }
 
 export interface SingleUrlProps {

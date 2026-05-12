@@ -1,25 +1,29 @@
 import React from "react";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 const FooterSkeleton = () => {
   return (
-    <footer className="bg-slate-100 w-full py-4">
-      <div className="flex flex-col items-center space-y-4 sm:flex-row sm:space-y-0 sm:justify-between container mx-auto px-4">
+    <footer className="w-full border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mt-10">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         {/* Developer Name Skeleton */}
-        <div className="flex items-center space-x-0 sm:space-x-2">
-          <div className="h-4 w-48 bg-gray-300 animate-pulse rounded"></div>
-          <div className="h-4 w-40 bg-gray-300 animate-pulse rounded hidden sm:inline-block"></div>
+        <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-4 w-4 hidden md:inline-block" />
+          <Skeleton className="h-4 w-40" />
         </div>
 
         {/* Social Icons & Avatar Skeleton */}
-        <div className="flex items-center space-x-4">
-          <div className="h-6 w-6 bg-gray-300 animate-pulse rounded-full"></div>
-          <div className="h-6 w-6 bg-gray-300 animate-pulse rounded-full"></div>
-          <div className="h-10 w-10 bg-gray-300 animate-pulse rounded-full"></div>
+        <div className="flex items-center gap-4 w-full md:w-auto justify-center">
+          <Skeleton className="h-5 w-5 rounded-full" />
+          <Skeleton className="h-5 w-5 rounded-full" />
+          <div className="h-4 w-px bg-border hidden sm:block"></div>
+          <Skeleton className="h-8 w-8 rounded-full" />
+          <Skeleton className="h-8 w-16 rounded-md" />
         </div>
 
         {/* Copyright Text Skeleton */}
-        <div className="text-gray-600 hidden sm:flex text-sm">
-          <div className="h-4 w-56 bg-gray-300 animate-pulse rounded"></div>
+        <div className="flex items-center mt-4 md:mt-0">
+          <Skeleton className="h-4 w-40" />
         </div>
       </div>
     </footer>

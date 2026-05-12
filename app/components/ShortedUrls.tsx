@@ -35,12 +35,9 @@ const ShortedUrls = () => {
   }, []);
 
   return (
-    <div className="w-full h-1/2 sm:min-h-full sm:w-2/3 lg:min-w-1/3  flex  flex-col  gap-5 justify-around items-center  text-center overflow-scroll  rounded-md mt-2 mr-2">
-      <h1 className="text-xl sm:text-4xl font-bold text-center">
-        Recent Short URLs
-      </h1>
-
-      <div className="flex flex-col items-center space-y-4  gap-2  w-full h-auto">
+    <div className="w-full flex flex-col gap-5 items-center text-center mt-2 px-4">
+      <h1 className="text-xl sm:text-3xl font-bold text-center">Recent Short URLs</h1>
+      <div className="flex flex-col items-center gap-3 w-full max-w-3xl">
         {shortedUrls.length > 0 && !loading ? (
           <>
             <SingleUrl shortedUrls={shortedUrls} />

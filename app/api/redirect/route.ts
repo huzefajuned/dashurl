@@ -17,11 +17,22 @@ export async function POST(req: NextRequest) {
       console.log("shortUrl is :", shortUrl);
 
       // Check if URL already exists
-      const originalUrl = await UrlModel.findOne({ shortUrl });
-      if (originalUrl) {
+      const urlDoc = await UrlModel.findOneAndUpdate(
+        { 
+          shortUrl,
+          $or: [
+            { expiresAt: { $exists: false } },
+            { expiresAt: { $gt: new Date() } }
+          ]
+        },
+        { $inc: { clicks: 1 } },
+        { new: true }
+      );
+
+      if (urlDoc) {
         return new Response(
           JSON.stringify({
-            originalUrl,
+            originalUrl: urlDoc,
             message: "redirecting please wait! ⌛⌛",
           }),
           {
@@ -29,6 +40,10 @@ export async function POST(req: NextRequest) {
             headers: { "Content-Type": "application/json" },
           }
         );
+      } else {
+        // Either not found or expired
+        await UrlModel.deleteOne({ shortUrl, expiresAt: { $lte: new Date() } });
+        return new Response(JSON.stringify({ error: "URL not found or expired" }), { status: 404 });
       }
     }
   } catch (error) {

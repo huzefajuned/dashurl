@@ -13,6 +13,7 @@ export async function POST(req: NextRequest) {
     // pickup the originla url form  req body
     const body = await req.json();
     const originalUrl = (await body?.url) || "";
+    const expiresIn = body?.expiresIn;
     const host = process.env.NEXT_PUBLIC_HOST_URL;
 
     // loging originalUrl
@@ -42,9 +43,15 @@ export async function POST(req: NextRequest) {
     const uniqueID = nanoid(8); // Generates an 8-character unique ID
     const shortURL = `${host}/${uniqueID}`;
 
+    let expiresAt = undefined;
+    if (expiresIn) {
+      expiresAt = new Date(Date.now() + parseInt(expiresIn) * 1000);
+    }
+
     const newUrl = await UrlModel.create({
       originalUrl: originalUrl,
       shortUrl: shortURL,
+      expiresAt: expiresAt,
     });
     // await UrlModel.save();
 

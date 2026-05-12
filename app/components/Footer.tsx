@@ -1,9 +1,9 @@
 import React from "react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import useAuthStore from "../store/user";
-import { Avatar, AvatarImage } from "@/app/components/ui/avatar";
+import { Avatar, AvatarImage, AvatarFallback } from "@/app/components/ui/avatar";
 import FooterSkeleton from "./skeletons/Footer-Skeleton";
-import { ShinyButton } from "./ui/shiny-button";
+import { Button } from "./ui/button";
 
 const Footer = () => {
   const { user, loading, loginWithGoogle, logout } = useAuthStore();
@@ -11,50 +11,57 @@ const Footer = () => {
   if (loading) return <FooterSkeleton />;
 
   return (
-    <footer className=" w-full items-center justify-center  py-1 sm:py-4 ">
-      <div className="flex flex-col items-center   sm:flex-row  sm:justify-between container mx-auto px-4">
-        <div className="flex items-center ">
-          <span className="text-sm sm:text-lg text-gray-500 font-semibold">
-            Developed with ❤️ by Huzefa Bin Juned
+    <footer className="w-full border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mt-10">
+      <div className="container mx-auto px-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground">
+            Developed with <span className="text-red-500">❤️</span> by Huzefa Bin Juned
           </span>
-          <span className="text-gray-300 hidden sm:inline-block px-2">
-            | Passionate Full Stack Developer
+          <span className="hidden md:inline-block text-muted-foreground">|</span>
+          <span className="text-sm text-muted-foreground">
+            Passionate Full Stack Developer
           </span>
         </div>
 
-        <div className="flex items-center   space-x-0 sm:space-x-4  flex-row  w-44 sm:w-36  justify-around">
+        <div className="flex items-center gap-4">
           <a
             href="https://github.com/huzefajuned"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-btnBgColor hover:text-btnBgHoverColor transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            <FaGithub size={24} />
+            <FaGithub className="h-5 w-5" />
           </a>
           <a
-            href="https://www.linkedin.com/in/huzefabinjuned"
+            href="https://www.linkedin.com/in/huzefajuned"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-btnBgColor hover:text-btnBgHoverCol transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors"
           >
-            <FaLinkedin size={24} />
+            <FaLinkedin className="h-5 w-5" />
           </a>
 
-          {user && (
-            <Avatar>
-              <AvatarImage src={user.photoURL || ""} alt="@shadcn" />
-            </Avatar>
-          )}
-          {/*  login logout buttons */}
+          <div className="h-4 w-px bg-border hidden sm:block"></div>
+
           {user ? (
-            <ShinyButton onClick={logout}>Logout</ShinyButton>
+            <div className="flex items-center gap-3">
+              <Avatar className="h-8 w-8 ring-1 ring-border">
+                <AvatarImage src={user.photoURL || ""} alt={user.displayName || "User"} />
+                <AvatarFallback>{user.displayName?.charAt(0) || "U"}</AvatarFallback>
+              </Avatar>
+              <Button variant="ghost" size="sm" onClick={logout}>
+                Logout
+              </Button>
+            </div>
           ) : (
-            <ShinyButton onClick={loginWithGoogle}>login</ShinyButton>
+            <Button variant="default" size="sm" onClick={loginWithGoogle}>
+              Login
+            </Button>
           )}
         </div>
 
-        <div className="text-gray-400 hidden sm:flex text-sm">
-          © {new Date().getFullYear()} Huzefa Bin Juned. All rights reserved.
+        <div className="text-xs text-muted-foreground flex items-center mt-0">
+          © {new Date().getFullYear()} All rights reserved.
         </div>
       </div>
     </footer>

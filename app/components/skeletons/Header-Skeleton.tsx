@@ -1,15 +1,28 @@
-const HeaderSkeleton = () => (
-  <header className="flex justify-between px-5 items-center bg-gray-100 h-20 ">
-    {/* Logo Skeleton */}
-    <div className="flex flex-row gap-2 items-center   mx-2">
-      <div className="h-14 w-14 bg-gray-300 animate-pulse rounded-full p-2"></div>
-    </div>
+import React from "react";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
-    {/* Navigation Links Skeleton */}
-    <nav className="flex sm:flex space-x-10 items-center">
-      <div className="h-6 w-16 bg-gray-300 animate-pulse rounded"></div>
-      <div className="h-10 w-10 bg-gray-300 animate-pulse rounded-full"></div>
-    </nav>
+const HeaderSkeleton = () => (
+  <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      {/* Logo Skeleton */}
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-8 w-32" />
+      </div>
+
+      {/* Navigation Links Skeleton */}
+      <nav className="hidden md:flex items-center gap-6">
+        <Skeleton className="h-5 w-16" />
+        <Skeleton className="h-5 w-20" />
+      </nav>
+
+      {/* Right side (Theme Toggle + Auth) Skeleton */}
+      <div className="flex items-center gap-4">
+        <Skeleton className="h-9 w-9 rounded-md hidden md:block" />
+        <Skeleton className="h-10 w-24 rounded-md hidden md:block" />
+        <Skeleton className="h-9 w-9 rounded-md md:hidden" />
+        <Skeleton className="h-9 w-9 rounded-md md:hidden" />
+      </div>
+    </div>
   </header>
 );
 

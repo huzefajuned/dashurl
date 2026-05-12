@@ -1,98 +1,103 @@
 import type React from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import QRCode from "react-qr-code";
 import type { ShareModelProps } from "../types/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/app/components/ui/dialog";
+import { Button } from "@/app/components/ui/button";
+import { Copy, Facebook, Twitter, Smartphone, ExternalLink } from "lucide-react";
 
 const ShareModel: React.FC<ShareModelProps> = ({ title, closeMe }) => {
-  // Function to copy URL to clipboard
+  const [open, setOpen] = useState(true);
+
+  // When internal dialog closes, trigger parent close
+  useEffect(() => {
+    if (!open) {
+      setTimeout(closeMe, 150); // slight delay for animation
+    }
+  }, [open, closeMe]);
+
   const copyToClipboard = () => {
     navigator.clipboard.writeText(title);
     toast.success("URL copied to clipboard!");
   };
 
-  // Share options for social media
   const shareOptions = [
     {
       name: "WhatsApp",
       url: `https://wa.me/?text=${encodeURIComponent(title)}`,
-      icon: "📱",
+      icon: <Smartphone className="h-4 w-4 mr-2" />,
+      color: "bg-green-500 hover:bg-green-600 text-white",
     },
     {
       name: "Twitter",
       url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(title)}`,
-      icon: "🐦",
+      icon: <Twitter className="h-4 w-4 mr-2" />,
+      color: "bg-blue-400 hover:bg-blue-500 text-white",
     },
     {
       name: "Facebook",
-      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        title
-      )}`,
-      icon: "📘",
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(title)}`,
+      icon: <Facebook className="h-4 w-4 mr-2" />,
+      color: "bg-blue-600 hover:bg-blue-700 text-white",
     },
   ];
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-    <div
-      onClick={() => closeMe()}
-      className="absolute top-0 left-0 w-full h-full  bg-opacity-80 backdrop-blur-sm flex justify-center items-center z-10"
-    >
-      {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-      <div
-        className="rounded-xl shadow-lg p-6 max-w-xl  w-11/12 sm:w-full transform transition-transform duration-300 ease-in-out border-2 border-gray-400 bg-white"
-        onClick={(e) => e.stopPropagation()} // Prevents closing when clicking inside
-      >
-        <div className="flex flex-col sm:flex-row items-center justify-between mb-4">
-          <p className="text-gray-600 font-semibold text-xs sm:text-lg">
-            Short URL:
-          </p>
-          <a
-            href={title}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 font-semibold text-xs sm:text-lg truncate"
-          >
-            {title}
-          </a>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-bold">Your short URL is ready!</DialogTitle>
+          <DialogDescription>
+            Scan the QR code or share the link below.
+          </DialogDescription>
+        </DialogHeader>
+        
+        <div className="flex flex-col items-center space-y-6 py-4">
+          <div className="bg-white p-4 rounded-xl shadow-sm border">
+            <QRCode value={title} size={160} />
+          </div>
+          
+          <div className="w-full flex items-center space-x-2">
+            <div className="flex-1 truncate bg-muted/50 px-3 py-2 rounded-md border text-sm text-muted-foreground">
+              {title}
+            </div>
+            <Button variant="secondary" size="icon" onClick={copyToClipboard} title="Copy URL">
+              <Copy className="h-4 w-4" />
+            </Button>
+            <Button variant="secondary" size="icon" asChild title="Open link">
+              <a href={title} target="_blank" rel="noopener noreferrer">
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            </Button>
+          </div>
+
+          <div className="w-full">
+            <p className="text-sm font-medium mb-3 text-center">Share via</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              {shareOptions.map((option) => (
+                <Button 
+                  key={option.name} 
+                  variant="outline" 
+                  className={`w-full ${option.color} border-0`} 
+                  asChild
+                >
+                  <a href={option.url} target="_blank" rel="noopener noreferrer">
+                    {option.icon} {option.name}
+                  </a>
+                </Button>
+              ))}
+            </div>
+          </div>
         </div>
-
-        <QRCode
-          value={title}
-          className="w-40 h-40 sm:w-40 sm:h-40 mx-auto mb-4"
-        />
-
-        {/* Share and Copy Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-between mt-4 space-y-2 sm:space-y-0 sm:space-x-4">
-          {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-          <button
-            onClick={copyToClipboard}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition-colors"
-          >
-            Copy URL
-          </button>
-          {shareOptions.map((option) => (
-            <a
-              key={option.name}
-              href={option.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center px-4 py-2 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-colors"
-            >
-              <span className="mr-2">{option.icon}</span> Share on {option.name}
-            </a>
-          ))}
-        </div>
-
-        {/* Close Button */}
-        {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
-        <button
-          onClick={closeMe}
-          className="mt-4 w-full px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition-colors"
-        >
-          Close
-        </button>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 

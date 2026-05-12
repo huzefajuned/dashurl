@@ -24,22 +24,23 @@ const SingleUrl = ({ shortedUrls }: SingleUrlProps) => {
         <div
           onClick={() => showUrlDetails(url)}
           key={`${index * 2}`}
-          className="  flex flex-row justify-between items-center  md:w-2/3 lg:w-full p-2 sm:p-4 bg-purple-50 rounded-lg hover:bg-green-300 shadow-lg cursor-pointer "
+          className="flex flex-row justify-between items-center w-full p-3 sm:p-4 bg-card hover:bg-muted border border-border/50 rounded-lg shadow-sm cursor-pointer transition-colors"
         >
-          <QRCode
-            value={url.shortUrl}
-            className=" w-20 h-20 sm:w-12 sm:h-12"
-            // onMouseEnter={()=>toast.success('clciks on QR')}
-          />
-          <div className=" flex  flex-col sm:flex-row items-center mx-2">
-            <p className="text-gray-700 font-bold  mr-2 text-xs sm:text-lg">
+          <div className="bg-white p-1 rounded-md shrink-0">
+            <QRCode
+              value={url.shortUrl}
+              className="w-12 h-12 sm:w-16 sm:h-16"
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center ml-4 flex-1 overflow-hidden">
+            <p className="text-muted-foreground font-medium mr-2 text-xs sm:text-sm">
               Short URL:
             </p>
             <a
               href={url.shortUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 font-semibold text-xs sm:text-lg truncate"
+              className="text-primary font-semibold text-sm sm:text-base truncate max-w-full"
             >
               {formatUrl(url.shortUrl)}
             </a>
