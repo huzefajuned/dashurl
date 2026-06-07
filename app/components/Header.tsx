@@ -8,6 +8,8 @@ import useAuthStore from "../store/user";
 import { Avatar, AvatarImage, AvatarFallback } from "@/app/components/ui/avatar";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
+import Image from "next/image";
+import logo from '../../public/logo.png'
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -23,13 +25,11 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-black ">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-              URL Shortnr
-            </span>
+            <Image src={logo} alt="logo" className="h-10 w-36 rounded-md" />
           </Link>
         </div>
 
