@@ -19,7 +19,7 @@ jobs:
         run: docker compose up -d
 
       - name: Wait for Containers
-        run: sleep 20
+        run: sleep 30
 
       - name: Check Running Containers
         run: docker compose ps
