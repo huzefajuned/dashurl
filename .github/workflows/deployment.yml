@@ -1,0 +1,32 @@
+name: DashURL CI
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  docker-compose-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Services
+        run: docker compose build
+
+      - name: Start Services
+        run: docker compose up -d
+
+      - name: Wait for Containers
+        run: sleep 20
+
+      - name: Check Running Containers
+        run: docker compose ps
+
+      - name: Show Logs
+        run: docker compose logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down
