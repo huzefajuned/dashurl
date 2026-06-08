@@ -12,11 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Build Services
-        run: docker compose build
-
-      - name: Start Services
-        run: docker compose up -d
+      - name: Build Services & Start Services
+        run: docker compose build | docker compose up -d --build 
 
       - name: Wait for Containers
         run: sleep 30
