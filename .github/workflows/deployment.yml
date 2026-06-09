@@ -1,4 +1,4 @@
-name: DashURL CI
+name: DashURL CI/CD
 
 on:
   push:
@@ -6,13 +6,28 @@ on:
       - master
 
 jobs:
-  docker-compose-check:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      # Step 1: Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v5
 
-        # Create .env file from GitHub Secrets
+      # Step 2: Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Step 3: Login to Amazon ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      # Step 4: Create .env file from GitHub Secrets
       - name: Create .env
         run: |
           echo "NEXT_PUBLIC_DB_URL=${{ secrets.NEXT_PUBLIC_DB_URL }}" >> .env
@@ -25,20 +40,22 @@ jobs:
           echo "NEXT_PUBLIC_appId=${{ secrets.NEXT_PUBLIC_APPID }}" >> .env
           echo "NEXT_PUBLIC_measurementId=${{ secrets.NEXT_PUBLIC_MEASUREMENTID }}" >> .env
 
-      - name: Build Services & Start Services
+      # Step 5: Build image using Docker Compose
+      - name: Build Docker Compose Services
+        run: docker compose build
+
+      # Step 6: Verify image was created
+      - name: List Docker Images
+        run: docker images
+
+      # Step 7: Tag image for ECR
+      - name: Tag Docker Image
         run: |
-          docker compose build
-          docker compose up -d
+          docker tag dashurl:latest \
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
 
-      - name: Wait for Containers
-        run: sleep 30
-
-      - name: Check Running Containers
-        run: docker compose ps
-
-      - name: Show Logs
-        run: docker compose logs
-
-      - name: Cleanup
-        if: always()
-        run: docker compose down
+      # Step 8: Push image to ECR
+      - name: Push Docker Image
+        run: |
+          docker push \
+          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
