@@ -12,8 +12,23 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+        # Create .env file from GitHub Secrets
+      - name: Create .env
+        run: |
+          echo "NEXT_PUBLIC_DB_URL=${{ secrets.NEXT_PUBLIC_DB_URL }}" >> .env
+          echo "NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}" >> .env
+          echo "NEXT_PUBLIC_apiKey=${{ secrets.NEXT_PUBLIC_APIKEY }}" >> .env
+          echo "NEXT_PUBLIC_authDomain=${{ secrets.NEXT_PUBLIC_AUTHDOMAIN }}" >> .env
+          echo "NEXT_PUBLIC_projectId=${{ secrets.NEXT_PUBLIC_PROJECTID }}" >> .env
+          echo "NEXT_PUBLIC_storageBucket=${{ secrets.NEXT_PUBLIC_STORAGEBUCKET }}" >> .env
+          echo "NEXT_PUBLIC_messagingSenderId=${{ secrets.NEXT_PUBLIC_MESSAGINGSENDERID }}" >> .env
+          echo "NEXT_PUBLIC_appId=${{ secrets.NEXT_PUBLIC_APPID }}" >> .env
+          echo "NEXT_PUBLIC_measurementId=${{ secrets.NEXT_PUBLIC_MEASUREMENTID }}" >> .env
+
       - name: Build Services & Start Services
-        run: docker compose build | docker compose up -d --build 
+        run: |
+          docker compose build
+          docker compose up -d
 
       - name: Wait for Containers
         run: sleep 30
