@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "DashURL - Premium",
+  title: "Dashurl- an URL Shortener web application",
   description: "Modern URL Shortener with Analytics",
 };
 
