@@ -32,6 +32,8 @@ const Footer = () => {
           >
             <FaGithub className="h-5 w-5" />
           </a>
+                  <p className="text-sm  font-medium"> @V1 </p>
+
           <a
             href="https://www.linkedin.com/in/huzefajuned"
             target="_blank"
