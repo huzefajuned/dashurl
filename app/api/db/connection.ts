@@ -9,7 +9,7 @@ export const connectDB = async () => {
     }
 
     // Connect to MongoDB if not already connected
-    const connect = await mongoose.connect(`${process.env.NEXT_PUBLIC_DB_URL}`);
+    const connect = await mongoose.connect(`${process.env.DB_URL}`);
 
     console.log("Connected to MongoDB:", connect.connection.host);
   } catch (error) {
