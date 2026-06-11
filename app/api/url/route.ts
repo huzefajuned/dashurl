@@ -14,10 +14,9 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const originalUrl = (await body?.url) || "";
     const expiresIn = body?.expiresIn;
-    const host = process.env.NEXT_PUBLIC_HOST_URL;
+    const dynamicHost = req.nextUrl.origin;
+    const host = dynamicHost ?? process.env.NEXT_PUBLIC_HOST_URL;
 
-    // loging originalUrl
-    // console.log("originalUrl in server :", originalUrl);
 
     if (!originalUrl) {
       return new Response("URL is required", { status: 400 });
@@ -70,7 +69,6 @@ export async function GET() {
   try {
     // DB Connction check
     await connectDB();
-    console.log(" GET call");
 
     //  for now i am fetching all urls in one
     //  later i'll add pagination
@@ -80,14 +78,12 @@ export async function GET() {
       .limit(1)
       .select("-originalUrl");
 
-    // console.log("urls are :", urls);
 
     return new Response(JSON.stringify({ urls, message: "URLs fetched!" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error in GET / retrieve urls:", error);
     return new Response("Server Error", { status: 500 });
   }
 }
