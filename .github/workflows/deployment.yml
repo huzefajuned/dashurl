@@ -68,5 +68,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker ps -a 
-            # ~/deploy/deploy.sh
+            export AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }}
+            export AWS_REGION=${{ secrets.AWS_REGION }}
+            export ECR_REPOSITORY=${{ secrets.ECR_REPOSITORY }}
+            ~/dashurl/infra/scripts/deploy.sh
