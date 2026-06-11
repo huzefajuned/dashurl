@@ -31,7 +31,6 @@ jobs:
       - name: Create .env
         run: |
           echo "NEXT_PUBLIC_DB_URL=${{ secrets.NEXT_PUBLIC_DB_URL }}" >> .env
-          echo "NEXT_PUBLIC_HOST_URL=${{ secrets.NEXT_PUBLIC_HOST_URL }}" >> .env
           echo "NEXT_PUBLIC_apiKey=${{ secrets.NEXT_PUBLIC_APIKEY }}" >> .env
           echo "NEXT_PUBLIC_authDomain=${{ secrets.NEXT_PUBLIC_AUTHDOMAIN }}" >> .env
           echo "NEXT_PUBLIC_projectId=${{ secrets.NEXT_PUBLIC_PROJECTID }}" >> .env
