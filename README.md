@@ -1,163 +1,432 @@
-```markdown
-# URL Shortnr 🚀
+# DashURL 🚀
 
-A full-stack web application to create and manage shortened URLs.  
-Built with **Next.js**, **Tailwind CSS**, **MongoDB**, and **Firebase**.  
+A modern, production-ready URL shortening platform built with **Next.js, MongoDB, Docker, AWS, and GitHub Actions CI/CD**.
 
-👉 Live Demo: [urlshortnr.vercel.app](https://urlshortnr.vercel.app)
+DashURL is designed not only as a URL shortener but also as a learning-focused open-source project for developers and students who want hands-on experience with:
+
+* Full Stack Development
+* Next.js
+* Docker & Containerization
+* GitHub Actions CI/CD
+* AWS ECR & EC2
+* Linux & DevOps Fundamentals
+* Open Source Collaboration
 
 ---
 
-## ⚡ Features
+## 🌐 Live Demo
 
-- 🔗 **URL Shortening** – Generate short, shareable links.
-- 📌 **Redirection** – Automatically redirect to the original URL.
-- 📱 **Responsive UI** – Works seamlessly across devices.
-- 🔒 **Environment Config** – Securely manage app credentials.
+**Website:** https://dashurl.xyz </br>
+**Website:** https://urlshortnr.vercel.app
+
+
+---
+
+## 📖 About the Project
+
+DashURL allows users to create short, shareable URLs and redirect visitors to their original destinations.
+
+This project demonstrates a complete modern software delivery pipeline:
+
+```text
+Code → GitHub → Docker → GitHub Actions → AWS ECR → AWS EC2 → Production
+```
+
+The goal is to help developers understand how real-world applications are built, containerized, deployed, and maintained in production environments.
+
+---
+
+## ✨ Features
+
+### URL Management
+
+* 🔗 Generate short URLs
+* 🚀 Fast URL redirection
+* 📦 MongoDB-backed storage
+* 📱 Fully responsive UI
+
+### Developer Features
+
+* ⚡ Next.js App Router
+* 🎨 Tailwind CSS
+* 🐳 Dockerized Application
+* 🔄 GitHub Actions CI/CD
+* ☁️ AWS ECR Integration
+* 🖥️ AWS EC2 Deployment
+* 🔒 Environment Variable Management
+
+### Learning Features
+
+Learn practical skills in:
+
+* Next.js
+* React
+* MongoDB
+* Docker
+* Docker Compose
+* GitHub Actions
+* AWS ECR
+* AWS EC2
+* Linux Administration
+* CI/CD Pipelines
+* Production Deployments
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Next.js** – SSR, static generation & API routes.
-- **Tailwind CSS** – Utility-first styling for modern UI.
-- **MongoDB (Atlas)** – Database for storing and managing URLs.
-- **Firebase** – Authentication & analytics.
+### Frontend
+
+* Next.js
+* React
+* TypeScript
+* Tailwind CSS
+
+### Backend
+
+* Next.js API Routes
+* MongoDB Atlas
+
+### Authentication & Analytics
+
+* Firebase
+
+### DevOps
+
+* Docker
+* Docker Compose
+* GitHub Actions
+* AWS ECR
+* AWS EC2
+* Linux (Ubuntu)
 
 ---
 
 ## 📂 Project Structure
 
+```text
+dashurl/
+│
+├── app/
+│   ├── api/
+│   └── ...
+│
+├── components/
+├── lib/
+├── public/
+│
+├── infra/
+│   ├── scripts/
+│   └── docs/
+│
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+│
+├── Dockerfile
+├── docker-compose.yml
+├── package.json
+├── README.md
+└── .env.sample
 ```
-
-url-shortnr/
-├── app/               # Next.js app directory
-├── lib/               # Utility functions
-├── public/            # Static assets
-├── components.json    # Component configuration
-├── .env.sample        # Example environment variables
-├── package.json       # Dependencies
-├── tailwind.config.ts # Tailwind CSS config
-└── README.md          # Documentation
-
-````
 
 ---
 
 ## 🚀 Getting Started
 
-### 1️⃣ Clone the repository
+### 1. Clone Repository
 
 ```bash
-git clone https://github.com/huzefajuned/url-shortnr.git
-cd url-shortnr
-````
+git clone https://github.com/huzefajuned/dashurl.git
 
-### 2️⃣ Install dependencies
+cd dashurl
+```
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 3️⃣ Setup Environment Variables
+---
 
-Create a `.env` file in the project root and copy values from `.env.sample`:
+## ⚙️ Environment Variables
+
+Create a `.env` file in the project root:
 
 ```bash
-# MongoDB URL
-NEXT_PUBLIC_DB_URL=your_mongodb_connection_url
+cp .env.sample .env
+```
 
-# Local or production host
+Example:
+
+```env
+# MongoDB
+NEXT_PUBLIC_DB_URL=
+
+# Application URL
 NEXT_PUBLIC_HOST_URL=http://localhost:3000
-# NEXT_PUBLIC_HOST_URL=https://urlshortnr.vercel.app/
 
-# Firebase Config
-NEXT_PUBLIC_apiKey=your_firebase_api_key
-NEXT_PUBLIC_authDomain=your_project.firebaseapp.com
-NEXT_PUBLIC_projectId=your_project_id
-NEXT_PUBLIC_storageBucket=your_project.appspot.com
-NEXT_PUBLIC_messagingSenderId=your_sender_id
-NEXT_PUBLIC_appId=your_app_id
-NEXT_PUBLIC_measurementId=your_measurement_id
+# Firebase
+NEXT_PUBLIC_apiKey=
+NEXT_PUBLIC_authDomain=
+NEXT_PUBLIC_projectId=
+NEXT_PUBLIC_storageBucket=
+NEXT_PUBLIC_messagingSenderId=
+NEXT_PUBLIC_appId=
+NEXT_PUBLIC_measurementId=
 ```
 
-⚠️ **Note:** Never commit your real `.env` file to GitHub.
+> ⚠️ Never commit your real `.env` file to GitHub.
 
 ---
 
-## 🗄 Setting up MongoDB
+## 🗄 MongoDB Setup
 
-1. Create an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-2. Create a **cluster** and get your connection string.
-3. Replace it in `.env`:
+1. Create a MongoDB Atlas account.
+2. Create a cluster.
+3. Create a database user.
+4. Configure Network Access.
+5. Copy your MongoDB connection string.
+6. Update:
 
+```env
+NEXT_PUBLIC_DB_URL=
 ```
-NEXT_PUBLIC_DB_URL=mongodb+srv://<username>:<password>@cluster0.mongodb.net
-```
-
-4. Make sure your database has a collection for storing URLs.
 
 ---
 
-## ▶️ Running Locally
+## 💻 Run Locally
+
+Development Mode:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-The app will be available at:
-👉 [http://localhost:3000](http://localhost:3000)
+Application will be available at:
+
+```text
+http://localhost:3000
+```
 
 ---
 
-## 📦 Build & Deploy
+## 🐳 Docker Setup
 
-### Build for production:
+### Build Image
 
 ```bash
-npm run build
-npm start
+docker build -t dashurl .
 ```
 
-### Deploy on Vercel:
+### Run Container
 
-1. Push your project to GitHub.
-2. Import it on [Vercel](https://vercel.com).
-3. Add the same `.env` values in Vercel’s **Environment Variables** section.
-4. Deploy 🎉
+```bash
+docker run -p 3000:3000 dashurl
+```
+
+### Using Docker Compose
+
+```bash
+docker compose up --build
+```
+
+---
+
+## 🔄 CI/CD Pipeline
+
+DashURL includes a complete CI/CD pipeline powered by GitHub Actions.
+
+### Deployment Flow
+
+```text
+Developer Pushes Code
+          │
+          ▼
+GitHub Actions
+          │
+          ▼
+Docker Image Build
+          │
+          ▼
+Push Image to AWS ECR
+          │
+          ▼
+SSH into AWS EC2
+          │
+          ▼
+Pull Latest Image
+          │
+          ▼
+Deploy Container
+          │
+          ▼
+Production
+```
+
+### Technologies Used
+
+* GitHub Actions
+* Docker
+* AWS ECR
+* AWS EC2
+* Linux
+
+---
+
+## ☁️ AWS Deployment
+
+### Services Used
+
+* Amazon ECR
+* Amazon EC2
+* IAM
+* Security Groups
+
+### Deployment Process
+
+1. Push code to GitHub.
+2. GitHub Actions builds Docker image.
+3. Image is pushed to AWS ECR.
+4. EC2 pulls the latest image.
+5. Existing container is replaced.
+6. Updated version becomes available instantly.
+
+---
+
+## 📚 Learning Roadmap
+
+This repository is ideal for developers learning:
+
+### Beginner Level
+
+* Git & GitHub
+* React
+* Next.js
+* MongoDB
+
+### Intermediate Level
+
+* Docker
+* Docker Compose
+* Linux
+* Environment Variables
+
+### Advanced Level
+
+* GitHub Actions
+* AWS ECR
+* AWS EC2
+* CI/CD Pipelines
+* Production Deployments
+* DevOps Fundamentals
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repo.
-2. Create your feature branch:
+Contributions are welcome from developers of all experience levels.
 
-   ```bash
-   git checkout -b feature/my-feature
-   ```
-3. Commit changes:
+Whether you're:
 
-   ```bash
-   git commit -m "Add my feature"
-   ```
-4. Push branch:
+* Learning Open Source
+* Learning Next.js
+* Learning Docker
+* Learning AWS
+* Learning DevOps
+* Fixing Bugs
+* Improving Documentation
 
-   ```bash
-   git push origin feature/my-feature
-   ```
-5. Open a Pull Request.
+You're welcome to contribute.
+
+### Contribution Process
+
+#### 1. Fork the Repository
+
+Click the **Fork** button on GitHub.
+
+#### 2. Clone Your Fork
+
+```bash
+git clone https://github.com/YOUR_USERNAME/dashurl.git
+
+cd dashurl
+```
+
+#### 3. Create a Feature Branch
+
+```bash
+git checkout -b feature/my-feature
+```
+
+#### 4. Make Changes
+
+Implement your improvements.
+
+#### 5. Commit Changes
+
+```bash
+git commit -m "feat: add new feature"
+```
+
+#### 6. Push Changes
+
+```bash
+git push origin feature/my-feature
+```
+
+#### 7. Open a Pull Request
+
+Submit a Pull Request describing:
+
+* What was changed
+* Why it was changed
+* Screenshots (if applicable)
+
+---
+
+## 🐛 Reporting Issues
+
+Found a bug?
+
+Please create an issue containing:
+
+* Steps to reproduce
+* Expected behavior
+* Actual behavior
+* Screenshots (if applicable)
+
+---
+
+## 🌟 Support the Project
+
+If you find this project useful:
+
+* ⭐ Star the repository
+* 🍴 Fork the repository
+* 🐛 Report issues
+* 🚀 Submit pull requests
+* 📢 Share it with others
+
+---
+
+## 👨‍💻 Maintainer
+
+**Huzefa Bin Juned**
+
+GitHub: https://github.com/huzefajuned/dashurl
+
+LinkedIn: https://linkedin.com/in/huzefabinjuned
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the MIT License.
+
+You are free to use, modify, and distribute this software for educational and commercial purposes.
 
 ---
 
-👨‍💻 Developed by [Huzefa Bin Juned](https://github.com/huzefajuned)
-
-```
+### Built with ❤️ for Developers, Students, and Open Source Learners.
