@@ -14,9 +14,8 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const originalUrl = (await body?.url) || "";
     const expiresIn = body?.expiresIn;
-    const dynamicHost = req.nextUrl.origin;
-    const host = dynamicHost ?? process.env.NEXT_PUBLIC_HOST_URL;
-
+    const host = req.nextUrl.origin;
+    
 
     if (!originalUrl) {
       return new Response("URL is required", { status: 400 });
